@@ -1,0 +1,63 @@
+Funcion valorDevuelto <- leerValores(pregunta)
+	Definir valorDevuelto Como Entero
+	Escribir pregunta
+	leer valorDevuelto
+	valorDevuelto <- valorDevuelto
+	
+FinFuncion
+
+Funcion mostrarArreglo(arreglo, escala)
+	Definir i, j Como Entero
+	Para i <- 0 Hasta escala - 1 Hacer
+		Para j <- 0 Hasta escala - 1 Hacer
+			Escribir arreglo[i, j]
+		FinPara
+	FinPara
+FinFuncion
+
+Funcion crearArreglo(escala, combinacion)
+	Definir i, fila como entero
+	Definir columna, nueva_fila, nueva_columna Como Real
+	Dimension nuevoArreglo[escala * escala + 1, escala * escala + 1]
+	
+	fila <- 0
+	columna <- redon((escala - 0.1) / 2)
+	
+	Para i <- 1 Hasta escala Hacer
+		nuevoArreglo[i, i] <- 0
+	FinPara
+	
+	Para i <- 1 Hasta escala * escala  Hacer
+		nuevoArreglo[fila, columna] <- i
+		nueva_fila <- fila - 1 
+		nueva_columna <- columna - 1
+		
+		Si nueva_fila < 0 Entonces
+			nueva_fila <- escala - 1
+		FinSi
+		
+		Si nueva_columna < 0 Entonces
+			nueva_columna <- escala - 1
+		FinSi
+		
+		Si nuevoArreglo[nueva_fila, nueva_columna] <> 0
+			fila <- fila + 1
+			Si fila > escala Entonces
+				fila <- escala
+			FinSi
+		SiNo
+			fila <- nueva_fila
+			columna <- nueva_columna
+		FinSi
+	FinPara
+	
+	mostrarArreglo(nuevoArreglo, escala)
+	
+FinFuncion
+
+Proceso cuadrado_magico
+	Definir escala Como entero;
+	escala <- leerValores("Escribe la dimensión del cuadrado ")
+	crearArreglo(escala, combinacion)
+	
+FinProceso
