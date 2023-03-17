@@ -3,11 +3,10 @@ Funcion valorDevuelto <- leerValores(pregunta)
 	Escribir pregunta
 	leer valorDevuelto
 	valorDevuelto <- valorDevuelto
-	
 FinFuncion
 
 Funcion mostrarArreglo(arreglo, escala)
-	Definir i, j Como Entero
+	Definir i, j, k, l Como Entero
 	Para i <- 0 Hasta escala - 1 Hacer
 		Para j <- 0 Hasta escala - 1 Hacer
 			Escribir arreglo[i, j]
@@ -15,20 +14,60 @@ Funcion mostrarArreglo(arreglo, escala)
 	FinPara
 FinFuncion
 
+Funcion rotar_cuadrado(arreglo, escala, combinacion)
+	Definir numero_rotaciones, i, nuevoIndiceColumna Como Entero
+	Dimension nuevoArreglo[escala * escala + 1, escala * escala + 1]
+	
+	Si combinacion MOD 2 <> 0
+		numero_rotaciones <- (combinacion + 1) / 2
+	SiNo 
+		numero_rotaciones <- combinacion / 2
+	FinSi
+	
+	Escribir "rotaciones: ", numero_rotaciones
+	
+	Si numero_rotaciones > 1 Entonces
+		Para i <- 1 Hasta numero_rotaciones - 1 Hacer
+			
+			Para k <- 0 Hasta escala * escala Hacer
+				nuevoArreglo[k, k] <- 0
+			FinPara
+			
+			Para indice_fila <- 0 Hasta escala - 1 Hacer
+				Para indice_columna <- 0 Hasta escala - 1 Hacer
+					nuevoIndiceColumna <- escala - indice_fila - 1
+					nuevoArreglo[indice_columna, nuevoIndiceColumna] <- arreglo[indice_fila, indice_columna] 
+				FinPara
+			FinPara
+			
+			Para l <- 0 Hasta escala * escala Hacer
+				Para j <- 0 Hasta escala * escala Hacer
+					arreglo[l, j] <- nuevoArreglo[l, j] 
+				FinPara
+			FinPara
+			
+
+		FinPara
+	FinSi
+	
+	mostrarArreglo(arreglo, escala)
+	
+FinFuncion
+
 Funcion crearArreglo(escala, combinacion)
 	Definir i, fila como entero
 	Definir columna, nueva_fila, nueva_columna Como Real
-	Dimension nuevoArreglo[escala * escala + 1, escala * escala + 1]
+	Dimension cuadrado[escala * escala + 1, escala * escala + 1]
 	
 	fila <- 0
 	columna <- redon((escala - 0.1) / 2)
 	
 	Para i <- 1 Hasta escala Hacer
-		nuevoArreglo[i, i] <- 0
+		cuadrado[i, i] <- 0
 	FinPara
 	
 	Para i <- 1 Hasta escala * escala  Hacer
-		nuevoArreglo[fila, columna] <- i
+		cuadrado[fila, columna] <- i
 		nueva_fila <- fila - 1 
 		nueva_columna <- columna - 1
 		
@@ -40,7 +79,7 @@ Funcion crearArreglo(escala, combinacion)
 			nueva_columna <- escala - 1
 		FinSi
 		
-		Si nuevoArreglo[nueva_fila, nueva_columna] <> 0
+		Si cuadrado[nueva_fila, nueva_columna] <> 0 Entonces
 			fila <- fila + 1
 			Si fila > escala Entonces
 				fila <- escala
@@ -51,13 +90,15 @@ Funcion crearArreglo(escala, combinacion)
 		FinSi
 	FinPara
 	
-	mostrarArreglo(nuevoArreglo, escala)
+	rotar_cuadrado(cuadrado, escala, combinacion)
+	
 	
 FinFuncion
 
 Proceso cuadrado_magico
-	Definir escala Como entero;
+	Definir escala, combinacion Como entero;
 	escala <- leerValores("Escribe la dimensión del cuadrado ")
+	combinacion <- leerValores("Escribe la combinación del cuadrado ")
 	crearArreglo(escala, combinacion)
 	
 FinProceso
