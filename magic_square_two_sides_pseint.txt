@@ -1,0 +1,94 @@
+Funcion valorDevuelto <- leerValores(pregunta)
+	Definir valorDevuelto Como Entero
+	Escribir pregunta
+	leer valorDevuelto
+	valorDevuelto <- valorDevuelto
+FinFuncion
+
+Funcion mostrarArreglo(arreglo, escala)
+	Definir i, j, k, l Como Entero
+	Para i <- 0 Hasta escala - 1 Hacer
+		Para j <- 0 Hasta escala - 1 Hacer
+			Escribir arreglo[i, j]
+		FinPara
+	FinPara
+FinFuncion
+
+Funcion crearArreglo(escala, combinacion)
+	Definir i, fila como entero
+	Definir columna, nueva_fila, nueva_columna Como Real
+	Definir combinacion_uno Como Logico
+	Dimension cuadrado[escala * escala + 1, escala * escala + 1]
+	
+	combinacion_uno <- combinacion = 1
+	columna <- redon((escala - 0.1) / 2)
+
+	Para i <- 1 Hasta escala Hacer
+		cuadrado[i, i] <- 0
+	FinPara
+	
+	Si combinacion_uno Entonces
+		fila <- 0
+	SiNo
+		fila <- escala - 1
+	FinSi
+	
+	Si combinacion_uno Entonces
+		Para i <- 1 Hasta escala * escala  Hacer
+			cuadrado[fila, columna] <- i
+			nueva_fila <- fila - 1 
+			nueva_columna <- columna - 1
+			
+			Si nueva_fila < 0 Entonces
+				nueva_fila <- escala - 1
+			FinSi
+			
+			Si nueva_columna < 0 Entonces
+				nueva_columna <- escala - 1
+			FinSi
+			
+			Si cuadrado[nueva_fila, nueva_columna] <> 0 Entonces
+				fila <- fila + 1
+				Si fila > escala Entonces
+					fila <- escala
+				FinSi
+			SiNo
+				fila <- nueva_fila
+				columna <- nueva_columna
+			FinSi
+		FinPara
+		
+
+	SiNo
+		Para i <- 1 Hasta escala * escala  Hacer
+			cuadrado[fila, columna] <- i
+			nueva_fila <- fila + 1 
+			nueva_columna <- columna - 1
+			
+			Si nueva_fila > escala - 1 Entonces
+				nueva_fila <- 0
+			FinSi
+			
+			Si nueva_columna < 0 Entonces
+				nueva_columna <- escala - 1
+			FinSi
+			
+			Si cuadrado[nueva_fila, nueva_columna] <> 0 Entonces
+				fila <- fila - 1
+			SiNo
+				fila <- nueva_fila
+				columna <- nueva_columna
+			FinSi
+		FinPara
+	FinSi
+	mostrarArreglo(cuadrado, escala)
+	
+FinFuncion
+
+Proceso cuadrado_magico
+	Definir escala, combinacion Como entero;
+	escala <- leerValores("Escribe la dimensión del cuadrado ")
+	combinacion <- leerValores("Escribe la combinación del cuadrado ")
+	crearArreglo(escala, combinacion)
+	
+FinProceso
