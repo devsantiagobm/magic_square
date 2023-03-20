@@ -1,7 +1,20 @@
-Funcion valorDevuelto <- leerValores(pregunta)
+Funcion valorDevuelto <- leerValores(pregunta, esEscala)
 	Definir valorDevuelto Como Entero
-	Escribir pregunta
-	leer valorDevuelto
+	
+	Si esEscala
+		Repetir
+			Escribir pregunta
+			leer valorDevuelto
+		Hasta Que valorDevuelto != 1 Y valorDevuelto MOD 2 != 0
+		
+	SiNo
+		Repetir
+			Escribir pregunta
+			leer valorDevuelto
+		Hasta Que valorDevuelto = 1 o valorDevuelto == 6
+	FinSi
+
+
 	valorDevuelto <- valorDevuelto
 FinFuncion
 
@@ -47,7 +60,7 @@ Funcion crearArreglo(escala, combinacion)
 				nueva_columna <- escala - 1
 			FinSi
 			
-			Si cuadrado[nueva_fila, nueva_columna] <> 0 Entonces
+			Si cuadrado[nueva_fila, nueva_columna] != 0 Entonces
 				fila <- fila + 1
 				Si fila > escala Entonces
 					fila <- escala
@@ -73,7 +86,7 @@ Funcion crearArreglo(escala, combinacion)
 				nueva_columna <- escala - 1
 			FinSi
 			
-			Si cuadrado[nueva_fila, nueva_columna] <> 0 Entonces
+			Si cuadrado[nueva_fila, nueva_columna] != 0 Entonces
 				fila <- fila - 1
 			SiNo
 				fila <- nueva_fila
@@ -87,8 +100,8 @@ FinFuncion
 
 Proceso cuadrado_magico
 	Definir escala, combinacion Como entero;
-	escala <- leerValores("Escribe la dimensión del cuadrado ")
-	combinacion <- leerValores("Escribe la combinación del cuadrado ")
+	escala <- leerValores("Escribe la dimensión del cuadrado ", Verdadero)
+	combinacion <- leerValores("Escribe la combinación del cuadrado ", Falso)
 	crearArreglo(escala, combinacion)
 	
 FinProceso
